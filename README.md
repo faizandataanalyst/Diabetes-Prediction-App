@@ -8,7 +8,7 @@ The project is also containerized using **Docker** and includes a **GitHub Actio
 
 ---
 
-## 🚀 Project Overview
+## Project Overview
 
 This project demonstrates an end-to-end machine learning deployment workflow:
 
