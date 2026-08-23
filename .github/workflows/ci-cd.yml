@@ -10,11 +10,15 @@ on:
 
 jobs:
 
+  # ---------------------------------------------------------
+  # CI: Test the application
+  # ---------------------------------------------------------
   test:
     name: Test Application
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -32,15 +36,48 @@ jobs:
         run: |
           python -c "import joblib; model=joblib.load('model.pkl'); print(type(model))"
 
+
+  # ---------------------------------------------------------
+  # CI: Build Docker image
+  # ---------------------------------------------------------
   docker:
     name: Build Docker Image
     needs: test
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Build Docker image
         run: |
-          docker build -t diabetes-app:test .
+          docker build -t faaizantarkan/diabetes-app:latest .
+
+
+  # ---------------------------------------------------------
+  # CD: Push Docker image to Docker Hub
+  # ---------------------------------------------------------
+  push:
+    name: Push Image to Docker Hub
+    needs: docker
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build Docker image
+        run: |
+          docker build -t faaizantarkan/diabetes-app:latest .
+
+      - name: Push Docker image
+        run: |
+          docker push faaizantarkan/diabetes-app:latest
