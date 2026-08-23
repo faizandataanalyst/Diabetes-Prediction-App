@@ -1,30 +1,36 @@
 # Diabetes Prediction App
 
-A machine learning web application that predicts the likelihood of diabetes using health and lifestyle indicators.
+An end-to-end machine learning application that predicts diabetes-related outcomes from health and lifestyle indicators.
 
-The application uses an **AdaBoost Classifier** trained on the **CDC BRFSS 2015 Diabetes Health Indicators dataset** and provides an interactive interface built with **Streamlit**.
-
-The project is also containerized using **Docker** and includes a **GitHub Actions CI/CD pipeline** for automated testing and Docker image building.
-
----
+The project combines a trained machine learning model with an interactive Streamlit web application and Docker containerization. GitHub Actions is used to automatically test the application, build the Docker image, and publish the image to Docker Hub whenever changes are pushed to the `main` branch.
 
 ## Project Overview
 
-This project demonstrates an end-to-end machine learning deployment workflow:
+This project demonstrates a complete machine learning application deployment workflow:
 
 ```text
-Open-source Dataset
-        ↓
-Data Analysis & Preprocessing
-        ↓
+Open-Source Dataset
+        |
+        v
+Data Analysis and Preprocessing
+        |
+        v
 Model Training
-        ↓
+        |
+        v
 AdaBoost Classifier
-        ↓
-Model Serialization
-        ↓
+        |
+        v
+Saved Model (model.pkl)
+        |
+        v
 Streamlit Application
-        ↓
+        |
+        v
 Docker Container
-        ↓
+        |
+        v
 GitHub Actions CI/CD
+        |
+        v
+Docker Hub
