@@ -8,6 +8,10 @@ st.title("Diabetes Prediction App")
 st.write("Currently, The app is under development.")
 st.write("Enter the patient's information below.")
 
+st.subheader("User Information")
+
+name = st.text_input("Name")
+country = st.text_input("Country")
 
 # Load the trained machine learning model
 model = joblib.load("model.pkl")
