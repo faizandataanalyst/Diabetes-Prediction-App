@@ -800,4 +800,5 @@ Model Monitoring                   Planned
 
 # Author
 **Faizan Faisal**
+
 This project was developed as part of a self-directed machine learning and MLOps portfolio, focusing on building an end-to-end machine learning application from dataset and model development through containerization and automated deployment.
