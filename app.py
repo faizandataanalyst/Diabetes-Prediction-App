@@ -1,23 +1,28 @@
+# Import Libraries
 import streamlit as st
 import joblib
 import pandas as pd
+import os
 
-# Page title and description
+# Page Title and Description
+
 st.title("Diabetes Prediction App")
 
-st.write("Currently, The app is under development.")
+st.write("Currently, the app is under development.")
 st.write("Enter the patient's information below.")
 
+# User Information
 st.subheader("User Information")
-
 name = st.text_input("Name")
 country = st.text_input("Country")
 
-# Load the trained machine learning model
+# Load Trained Machine Learning Model
 model = joblib.load("model.pkl")
 
-# Helper function for Yes/No questions
-# Converts: "No"  -> 0 and "Yes" -> 1
+# Helper Function for Yes/No Questions
+# Converts:
+# "No"  -> 0
+# "Yes" -> 1
 
 def yes_no_input(label):
     answer = st.selectbox(label, ["No", "Yes"])
@@ -25,12 +30,18 @@ def yes_no_input(label):
 
 # Health Information
 st.subheader("Health Information")
+
 # High blood pressure
 HighBP = yes_no_input("High Blood Pressure")
+
 # High cholesterol
 HighChol = yes_no_input("High Cholesterol")
+
 # Cholesterol check in the last 5 years
-CholCheck = yes_no_input("Cholesterol Check in Last 5 Years")
+CholCheck = yes_no_input(
+    "Cholesterol Check in Last 5 Years"
+)
+
 # Body Mass Index
 BMI = st.number_input(
     "BMI",
@@ -41,50 +52,54 @@ BMI = st.number_input(
 
 # Smoker
 Smoker = yes_no_input("Smoker")
+
 # History of stroke
 Stroke = yes_no_input("History of Stroke")
+
 # History of heart disease or heart attack
 HeartDiseaseorAttack = yes_no_input(
     "Heart Disease or Heart Attack"
 )
+
 # Physical activity
-PhysActivity = yes_no_input("Physical Activity")
+PhysActivity = yes_no_input(
+    "Physical Activity"
+)
+
 # Fruit consumption
-Fruits = yes_no_input("Consumes Fruit")
+Fruits = yes_no_input(
+    "Consumes Fruit"
+)
+
 # Vegetable consumption
-Veggies = yes_no_input("Consumes Vegetables")
+Veggies = yes_no_input(
+    "Consumes Vegetables"
+)
+
 # Heavy alcohol consumption
 HvyAlcoholConsump = yes_no_input(
     "Heavy Alcohol Consumption"
 )
+
 # Healthcare coverage
 AnyHealthcare = yes_no_input(
     "Has Healthcare Coverage"
 )
+
 # Could not see doctor because of cost
 NoDocbcCost = yes_no_input(
     "Could Not See Doctor Due to Cost"
 )
+
 # Difficulty walking
 DiffWalk = yes_no_input(
     "Difficulty Walking"
 )
 
-
-# ---------------------------------------------------------
-# Other Information
-# ---------------------------------------------------------
-
+# Additional Information
 st.subheader("Additional Information")
 
-
-# General health:
-# 1 = Excellent
-# 2 = Very Good
-# 3 = Good
-# 4 = Fair
-# 5 = Poor
-
+# General Health
 # Dataset encoding:
 # 1 = Excellent
 # 2 = Very good
@@ -105,10 +120,10 @@ health_label = st.selectbox(
     list(health_categories.keys())
 )
 
-# Convert the selected label to the numeric value
-# expected by the machine learning model
+# Convert selected label to numerical value
 GenHlth = health_categories[health_label]
 
+# Mental Health
 # Number of days during the past 30 days
 # when mental health was not good
 
@@ -119,6 +134,7 @@ MentHlth = st.slider(
     value=0
 )
 
+# Physical Health
 # Number of days during the past 30 days
 # when physical health was not good
 
@@ -129,7 +145,8 @@ PhysHlth = st.slider(
     value=0
 )
 
-# Sex:
+# Sex
+# Dataset encoding:
 # 0 = Female
 # 1 = Male
 
@@ -137,16 +154,12 @@ Sex = st.selectbox(
     "Sex",
     ["Female", "Male"]
 )
-# Convert the selected label to the value expected by the model
+
+# Convert selected value to numerical value
 Sex = 0 if Sex == "Female" else 1
 
-
-# Age category used by the original dataset
-
 # Age Category
-# ---------------------------------------------------------
-# The dataset uses age categories from 1 to 13.
-# We display meaningful age ranges to the user.
+# The original dataset uses age categories from 1 to 13.
 
 age_categories = {
     "18-24": 1,
@@ -169,23 +182,13 @@ age_label = st.selectbox(
     list(age_categories.keys())
 )
 
-# Convert the selected age range to the dataset's numeric value
+# Convert age range to numerical dataset value
 Age = age_categories[age_label]
 
-# Education level:
-# 1 = Never attended school
-# 2 = Elementary
-# 3 = Some high school
-# 4 = High school graduate
-# 5 = Some college
-# 6 = College graduate
-
-# ---------------------------------------------------------
 # Education Level
-# ---------------------------------------------------------
 # Dataset encoding:
 # 1 = Never attended school
-# 2 = Elementary
+# 2 = Elementary school
 # 3 = Some high school
 # 4 = High school graduate
 # 5 = Some college
@@ -205,27 +208,26 @@ education_label = st.selectbox(
     list(education_categories.keys())
 )
 
-# Convert the selected label to the dataset's numeric value
+# Convert selected education level to numerical value
 Education = education_categories[education_label]
 
-
-# Income category used by the original dataset
-
-# Dataset income categories:
+# Income Category
+# Dataset encoding:
 # 1 = Less than $10,000
-# 2 = $10,000-$14,999
-# 3 = $15,000-$19,999
-# 4 = $20,000-$24,999
-# 5 = $25,000-$34,999
-# 6 = $35,000-$49,999
-# 7 = $50,000-$74,999
-# 8 = $75,000+
+# 2 = $10,000 - $14,999
+# 3 = $15,000 - $19,999
+# 4 = $20,000 - $24,999
+# 5 = $25,000 - $34,999
+# 6 = $35,000 - $49,999
+# 7 = $50,000 - $74,999
+# 8 = $75,000 or more
 
 income_categories = {
     "Less than $10,000": 1,
     "$10,000 - $14,999": 2,
     "$15,000 - $19,999": 3,
     "$20,000 - $24,999": 4,
+    "$25,000 - $34,999": 5,
     "$25,000 - $34,999": 5,
     "$35,000 - $49,999": 6,
     "$50,000 - $74,999": 7,
@@ -237,66 +239,99 @@ income_label = st.selectbox(
     list(income_categories.keys())
 )
 
-# Convert the selected label to the dataset's numeric value
+# Convert selected income category to numerical value
 Income = income_categories[income_label]
 
-# Create prediction button
+# Prediction
+
 if st.button("Predict Diabetes"):
 
-    # Create a DataFrame containing all 21 features
-    # in the exact order expected by the trained model
+    # Create DataFrame with all 21 model features
+    input_data = pd.DataFrame([{
+        "HighBP": HighBP,
+        "HighChol": HighChol,
+        "CholCheck": CholCheck,
+        "BMI": BMI,
+        "Smoker": Smoker,
+        "Stroke": Stroke,
+        "HeartDiseaseorAttack": HeartDiseaseorAttack,
+        "PhysActivity": PhysActivity,
+        "Fruits": Fruits,
+        "Veggies": Veggies,
+        "HvyAlcoholConsump": HvyAlcoholConsump,
+        "AnyHealthcare": AnyHealthcare,
+        "NoDocbcCost": NoDocbcCost,
+        "GenHlth": GenHlth,
+        "MentHlth": MentHlth,
+        "PhysHlth": PhysHlth,
+        "DiffWalk": DiffWalk,
+        "Sex": Sex,
+        "Age": Age,
+        "Education": Education,
+        "Income": Income
+    }])
 
-    input_data = pd.DataFrame([[
-        HighBP,
-        HighChol,
-        CholCheck,
-        BMI,
-        Smoker,
-        Stroke,
-        HeartDiseaseorAttack,
-        PhysActivity,
-        Fruits,
-        Veggies,
-        HvyAlcoholConsump,
-        AnyHealthcare,
-        NoDocbcCost,
-        GenHlth,
-        MentHlth,
-        PhysHlth,
-        DiffWalk,
-        Sex,
-        Age,
-        Education,
-        Income
-    ]], columns=[
-        "HighBP",
-        "HighChol",
-        "CholCheck",
-        "BMI",
-        "Smoker",
-        "Stroke",
-        "HeartDiseaseorAttack",
-        "PhysActivity",
-        "Fruits",
-        "Veggies",
-        "HvyAlcoholConsump",
-        "AnyHealthcare",
-        "NoDocbcCost",
-        "GenHlth",
-        "MentHlth",
-        "PhysHlth",
-        "DiffWalk",
-        "Sex",
-        "Age",
-        "Education",
-        "Income"
-    ])
+    # Make Prediction
+    prediction = model.predict(input_data)[0]
 
-    # Make the prediction
-    prediction = model.predict(input_data)
+    # Display Prediction
+    if prediction == 1:
 
-    # Display the prediction
-    if prediction[0] == 1:
-        st.error("Diabetes detected")
+        result = "Diabetes detected"
+
+        st.error(result)
+
     else:
-        st.success("No diabetes detected")
+
+        result = "No diabetes detected"
+
+        st.success(result)
+
+    # Save Prediction to CSV
+
+    # Create data directory if it doesn't exist
+    os.makedirs("data", exist_ok=True)
+
+    # CSV file location
+    csv_file = "data/predictions.csv"
+
+    # Create a copy of the model input
+    new_record = input_data.copy()
+
+    # Add user information
+    new_record.insert(0, "Name", name)
+    new_record.insert(1, "Country", country)
+
+    # Add prediction
+    new_record["Prediction"] = prediction
+
+    # Add readable prediction result
+    new_record["Prediction_Result"] = result
+
+    # Add timestamp
+    new_record["Timestamp"] = pd.Timestamp.now()
+
+    # Append to Existing CSV or Create New CSV
+    if os.path.exists(csv_file):
+
+        # Append new record
+        new_record.to_csv(
+            csv_file,
+            mode="a",
+            header=False,
+            index=False
+        )
+
+    else:
+
+        # Create new CSV
+        new_record.to_csv(
+            csv_file,
+            mode="w",
+            header=True,
+            index=False
+        )
+
+
+    # Confirm that the record was saved
+    st.success("Prediction saved successfully.")
